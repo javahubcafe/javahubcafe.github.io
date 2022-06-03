@@ -1,4 +1,4 @@
-# Java Basics
+## Java Basics
 ## 2.1	What is JVM ? Why is Java called the Platform Independent Programming Lan- guage?
 A Java virtual machine (JVM) is a process virtual machine that can execute Java bytecode. Each Java source file is compiled into a bytecode file, which is executed by the JVM. Java was designed to allow application programs to be built that could be run on any platform, without having to be rewritten or recompiled by the programmer for each separate platform. A Java virtual machine makes this possible, because it is aware of the specific instruction lengths and other particularities of the underlying hardware platform.
 
