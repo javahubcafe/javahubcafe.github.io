@@ -4,10 +4,14 @@
 
 * *[Oops concepts](01-oops.md)* 
 * *[Java basics](02-java-basics.md)*
-* *[Multithreading](03-multithreading.md)*
+* *[Garbage Collection](03-garbage-collection.md)*
 * *[Collections](04-collections.md)*
-* *[Garbage Collection](05-garbage-collection.md)*
-* *[Exception Handling](06-exception-handling.md)*
-* *[JDBC](07-jdbc.md)*
-* *[Servlets](08-servlets.md)*
+* *[Exception Handling](05-exception-handling.md)*
+* *[Multithreading](06-multithreading.md)*
+* *[Java8](07-java8.md)*
+* *[JDBC](08-jdbc.md)*
 * *[JSP](09-jsp.md)*
+* *[Servlets](10-servlets.md)*
+* *[Design-Patterns](11-design-patterns.md)*
+* *[Hibernate](16-hibernate.md)*
+* *[Behavioral](17-behavioral.md)*
