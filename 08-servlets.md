@@ -72,8 +72,6 @@ The sendRedirect method creates a new request, while the forward method just for
 
 The URL encoding procedure is responsible for replacing all the spaces and every other extra special character of a URL, into their corresponding Hex representation. In correspondence, URL decoding is the exact opposite procedure.
 
-# Servlets Interview Questions and Answers
-
 ## Q. Explain Servlets Lifecycle?
 The web container maintains the life cycle of a servlet instance. 
 
