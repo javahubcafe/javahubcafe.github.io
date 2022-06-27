@@ -30,8 +30,8 @@ Deposit
 Print Pass Book
 Get Loan Info
 Send OTP
-package com.javatechie.solid.srp;
 
+package com.javatechie.solid.srp;
 
 public class BankService {
 
@@ -69,6 +69,7 @@ public class BankService {
     }
 
 }
+
 Have you imagined the scenario? Here the class has multiple reasons to change.
 
 For example look into getLoanInterestInfo() method , now bank service provide only info for Personal Loan , Home Loan and car loan let’s say in future bank people want to provide some other loan feature like gold loan and study loan then again you need to modify this class implementation right ?
@@ -86,9 +87,11 @@ public class PrinterService{
         //update transaction info in passbook
     }
 }
+
 Similarly Loan related job
 
 public class LoanService{
+
 public void getLoanInterestInfo(String loanType) {
         if (loanType.equals("homeLoan")) {
             //do some job
@@ -111,6 +114,7 @@ public void sendOTP(String medium) {
         }
     }
 }
+
 Now if you observe Each class have single Responsibility to perform their task .which is exactly SRP says …
 
 **Open closed Principle (OSP)**
@@ -136,36 +140,59 @@ So to overcome this you need to design your code in such a way that everyone can
 You can design something like below
 
 public interface NotificationService{
+
 public void sendOTP(String medium);
+
 public void sendTransactionNotification(String medium);
+
 }
+
 EmailNotification implantation
 
 public class EmailNotification implements NotificationService{
+
 public void sendOTP(String medium){
+
 // write Logic using JavaEmail api
+
 }
+
 public void sendTransactionNotification(String medium){
+
 }
+
 }
+
 Mobile Notification implementation
 
 public class MobileNotification implements NotificationService{
+
 public void sendOTP(String medium){
+
 // write Logic using Twilio SMS API
+
 }
+
 public void sendTransactionNotification(String medium){
+
 }
 }
 similarly you can add implementation for WhatsApp notification service
 
 public class WhatsAppNotification implements NotificationService{
+
 public void sendOTP(String medium){
+
 // write Logic using whatsapp API
+
 }
+
 public void sendTransactionNotification(String medium){
+
 }
+
 }
+
 this approach would not affect the existing application. which follow OCP
 
 **Liskov substitution Principle (LSP)**
@@ -248,20 +275,28 @@ solution
 create a Social media interface
 
 public interface SocialMedia {  
+
    public void chatWithFriend();
    public void sendPhotosAndVideos()
+   
 }
 public interface SocialPostAndMediaManager { 
+
     public void publishPost(Object post);
+    
 }
 public interface VideoCallManager{ 
+
    public void groupVideoCall(String... users);
+   
 }
+
 Now if you observe we segregate specific functionality to separate class to follow LSP
 
 now its up to implementation class decision to support features , based on their desired feature they can use respective interface for example instagram doesn’t support video call feature so instagram implementation can be design something like this
 
 public class Instagram implements SocialMedia ,SocialPostAndMediaManager{
+
 public void chatWithFriend(){
     //logic
    }
@@ -272,6 +307,7 @@ public void chatWithFriend(){
     //logic
    }
 }
+
 This is how you can design LSP
 
 **Interface Segregation Principle (ISP)**
@@ -288,6 +324,7 @@ public interface UPIPayments {
     
     public void getCashBackAsCreditBalance();
 }
+
 Now let’s talk about few implementation for UPIPayments like Google Pay and Paytm
 
 Google Pay support these features so he can directly implement this UPIPayments but Paytm doesn’t support getCashBackAsCreditBalance() feature so here we shouldn’t force client paytm to override this method by implementating UPIPayments .
@@ -297,8 +334,10 @@ we need to segregate interface based on client need , so to support this ISP we 
 create a separate interface who will deal with Cashback
 
 public interface CashbackManager{
+
  public void getCashBackAsCreditBalance();
 }
+
 Now we can remove getCashBackAsCreditBalance from UPIPayments interface .
 
 Based on client need we segregate interface , let’s say paytm now implements from UPIPayments then as a client we are not forcing him anything to use . which follow ISP
@@ -318,32 +357,57 @@ now let’s replace this example in code to understand it better .
 let’s assume you have two option to do payments Debit card and Credit card
 
 public class DebitCard{
+
 public void doTransaction(int amount){
+
         System.out.println("tx done with DebitCard");
+        
     }
+    
 }
+
 Credit Card
 
 public class CreditCard{
+
 public void doTransaction(int amount){
+
         System.out.println("tx done with CreditCard");
+        
     }
+    
 }
+
 Now with this two card you went to shopping mall and purchased some order and decided to pay using CreditCard
 
 public class ShoppingMall {
+
 private DebitCard debitCard;
+
 public ShoppingMall(DebitCard debitCard) {
+
         this.debitCard = debitCard;
+        
    }
-public void doPayment(Object order, int amount){              debitCard.doTransaction(amount); 
+   
+public void doPayment(Object order, int amount){   
+
+debitCard.doTransaction(amount); 
+
  }
+ 
 public static void main(String[] args) {
+
      DebitCard debitCard=new DebitCard();
+     
      ShoppingMall shoppingMall=new ShoppingMall(debitCard);
+     
      shoppingMall.doPayment("some order",5000);
+     
     }
+    
 }
+
 if you observe this is wrong design of coding , now ShoppingMall class tightly coupled with DebitCard
 
 now there is some error in your debit card and user want to go with Credit card then this won’t be possible because ShoppingMall is tightly couple with Debit Card
@@ -354,37 +418,65 @@ because to follow DIP we need to design our application in such a way so that my
 To simplify this designing principle further i am creating a interface called Bankcards like bellow
 
 public interface BankCard {
+
   public void doTransaction(int amount);
+  
 }
+
 Now both DebitCard and CreditCard will use This BankCard as abstraction
 
 public class CreditCard implements BankCard{
-public void doTransaction(int amount){            System.out.println("tx done with CreditCard");
+
+public void doTransaction(int amount){         
+
+        System.out.println("tx done with CreditCard");
+        
     }
+    
 }
+
 similarly DebitCard
 
 public class DebitCard implements BankCard{
+
 public void doTransaction(int amount){
+
 System.out.println("tx done with DebitCard");
+
     }
+    
 }
+
 Now you need to redesign Shopping mall implementation
 
 public class ShoppingMall {
+
 private BankCard bankCard;
+
 public ShoppingMall(BankCard bankCard) {
+
         this.bankCard = bankCard;
+        
     }
+    
 public void doPayment(Object order, int amount){
+
         bankCard.doTransaction(amount);
+        
     }
+    
 public static void main(String[] args) {
+
         BankCard bankCard=new CreditCard();
+        
         ShoppingMall shoppingMall1=new ShoppingMall(bankCard);
+        
         shoppingMall1.doPayment("do some order", 10000);
+        
     }
+    
 }
+
 Now if you observe shopping mall is loosely coupled with BankCard , any type of card process the payment without any impact . which proofs DIP
 
 Principle Description
