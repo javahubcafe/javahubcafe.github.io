@@ -101,7 +101,7 @@ kubectl get deployments
 Creating a deployment
 To create deployment first create a yaml file in the directory that specifies what type of deployment you want to create along with the name and other configurations.
 
-Screenshot 2021-06-23 at 6.39.10 PM.png
+<img src="resources/kubernetes-deployment.png" alt="deployment" />
 
 The above image shows the structure that you can follow to create a deployment file. To create a deployment, run the following command:
 
